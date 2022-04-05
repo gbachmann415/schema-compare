@@ -13,6 +13,8 @@ Description: Compare tables within a given schema.
 
 from config import *
 import psycopg2
+import json
+import pandas as pd
 #TODO add input from user. schema, db (source and target)
 
 table_info_sql = """select table_name,
@@ -41,7 +43,7 @@ def connect_to_db(user, password, db, host, port):
         }
 
         conn = psycopg2.connect(**params)
-        print("Database connection established")
+        # print("Database connection established")
     except:
         print("Connection failed")
         exit()
@@ -62,21 +64,31 @@ def get_data(user, password, db, host, port):
     """
     # Establish connection
     conn = connect_to_db(user=user, password=password, db=db, host=host, port=port)
-    # Create cursor
-    cur = conn.cursor()
-    # Execute SQL query
-    cur.execute(table_info_sql)
-    # Store query result
-    records = cur.fetchall()
-    # Close connection and cursor
-    cur.close()
-    conn.close()
-    # Format query result into a list of dictionaries
-    result_list = []
-    for record in records:
-        result_list.append(dict(zip(['table', 'columns', 'position', 'date_type'], record)))
-    # Return resulting list
-    return result_list
+    df = pd.read_sql(table_info_sql, conn)
+    return df
+    # # Create cursor
+    # cur = conn.cursor()
+    # # Execute SQL query
+    # cur.execute(table_info_sql)
+    # # Store query result
+    # records = cur.fetchall()
+    # # Close connection and cursor
+    # cur.close()
+    # conn.close()
+    # # Format query result into a list of dictionaries
+    # result_list = []
+    # for record in records:
+    #     result_list.append(dict(zip(['table', 'columns', 'position', 'date_type'], record)))
+    # # Return resulting list
+    # return result_list
+
+
+def check_table(table, source_data, target_data):
+    if len(target_data) == 0:
+        print("Table: " + table)
+    else:
+
+    return
 
 
 def main():
@@ -84,6 +96,12 @@ def main():
     pg_data = get_data(user=PG_USER, password=PG_PASS, db=PG_DB, host=PG_HOST, port=PG_PORT)
     # Get target data
     rs_data = get_data(user=RS_USER, password=RS_PASS, db=RS_DB, host=RS_HOST, port=RS_PORT)
+
+    tables = pg_data.table_name.unique()
+    for i in tables:
+        check_table(i, pg_data[pg_data.table_name.isin([i])], rs_data[rs_data.table_name.isin([i])])
+
+
 
 
 main()
