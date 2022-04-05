@@ -5,16 +5,14 @@ File: main.py
 
 Authors: Gunnar Bachmann
 
-Description:
+Description: Compare tables within a given schema. Print table or column that differs in target from source
 """
 
-from config import DB_USERNAME, DB_PASSWORD, DB_NAME
+from config import *
 import psycopg2
-from sshtunnel import SSHTunnelForwarder
-from datetime import datetime
 
 
-def connect_to_db():
+def connect_to_db(user, password, db, host, port):
     """
     Establish a connection to the database with username, password, and database name.
     Failed connection will result in a connection failed output to the user and program exit.
@@ -22,24 +20,23 @@ def connect_to_db():
     :return: conn = connection to database
     """
     try:
-        server = SSHTunnelForwarder(('starbug.cs.rit.edu', 22),
-                                    ssh_username=DB_USERNAME,
-                                    ssh_password=DB_PASSWORD,
-                                    remote_bind_address=('localhost', 5432))
-        server.start()
-        # print("SSH tunnel established")
         params = {
-            'database': DB_NAME,
-            'user': DB_USERNAME,
-            'password': DB_PASSWORD,
-            'host': 'localhost',
-            'port': server.local_bind_port
+            'database': db,
+            'user': user,
+            'password': password,
+            'host': host,
+            'port': port
         }
 
         conn = psycopg2.connect(**params)
-        # print("Database connection established")
+        print("Database connection established")
     except:
         print("Connection failed")
         exit()
 
     return conn
+
+pg_conn = connect_to_db(user=PG_USER, password=PG_PASS, db=PG_DB, host=PG_HOST, port=PG_PORT)
+pg_conn.close()
+rs_conn = connect_to_db(user=RS_USER, password=RS_PASS, db=RS_DB, host=RS_HOST, port=RS_PORT)
+rs_conn.close()
