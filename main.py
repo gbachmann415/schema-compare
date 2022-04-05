@@ -66,21 +66,6 @@ def get_data(user, password, db, host, port):
     conn = connect_to_db(user=user, password=password, db=db, host=host, port=port)
     df = pd.read_sql(table_info_sql, conn)
     return df
-    # # Create cursor
-    # cur = conn.cursor()
-    # # Execute SQL query
-    # cur.execute(table_info_sql)
-    # # Store query result
-    # records = cur.fetchall()
-    # # Close connection and cursor
-    # cur.close()
-    # conn.close()
-    # # Format query result into a list of dictionaries
-    # result_list = []
-    # for record in records:
-    #     result_list.append(dict(zip(['table', 'columns', 'position', 'date_type'], record)))
-    # # Return resulting list
-    # return result_list
 
 
 def check_table(table, source_data, target_data):
