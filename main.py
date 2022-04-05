@@ -5,7 +5,10 @@ File: main.py
 
 Authors: Gunnar Bachmann
 
-Description: Compare tables within a given schema. Print table or column from source that is different in target.
+Notes: Utilizes a config.py file created by user (should be in same directory as this file, main.py)
+
+Description: Compare tables within a given schema.
+             Print table or column from source that is different in target.
 """
 
 from config import *
@@ -47,6 +50,16 @@ def connect_to_db(user, password, db, host, port):
 
 
 def get_data(user, password, db, host, port):
+    """
+    Gather data from given DB
+
+    :param user: DB username
+    :param password: DB password
+    :param db: DB name
+    :param host: DB host
+    :param port: DB port
+    :return: List containing result data
+    """
     conn = connect_to_db(user=user, password=password, db=db, host=host, port=port)
     cur = conn.cursor()
     cur.execute(table_info_sql)
@@ -62,6 +75,6 @@ def get_data(user, password, db, host, port):
 def main():
     pg_data = get_data(user=PG_USER, password=PG_PASS, db=PG_DB, host=PG_HOST, port=PG_PORT)
     rs_data = get_data(user=RS_USER, password=RS_PASS, db=RS_DB, host=RS_HOST, port=RS_PORT)
-    
+
 
 main()
