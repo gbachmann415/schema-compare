@@ -65,6 +65,7 @@ def get_data(user, password, db, host, port):
     # Establish connection
     conn = connect_to_db(user=user, password=password, db=db, host=host, port=port)
     df = pd.read_sql(table_info_sql, conn)
+    conn.close()
     return df
 
 
