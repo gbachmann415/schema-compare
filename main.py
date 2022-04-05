@@ -1,5 +1,5 @@
 """
-Gunnar Bachmann Arcion Interview Project: Schema Compare
+Arcion Interview Project: Schema Compare
 
 File: main.py
 
