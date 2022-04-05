@@ -5,7 +5,7 @@ File: main.py
 
 Authors: Gunnar Bachmann
 
-Description: Compare tables within a given schema. Print table or column that differs in target from source
+Description: Compare tables within a given schema. Print table or column from source that is different in target.
 """
 
 from config import *
