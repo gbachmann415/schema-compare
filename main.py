@@ -60,20 +60,29 @@ def get_data(user, password, db, host, port):
     :param port: DB port
     :return: List containing result data
     """
+    # Establish connection
     conn = connect_to_db(user=user, password=password, db=db, host=host, port=port)
+    # Create cursor
     cur = conn.cursor()
+    # Execute SQL query
     cur.execute(table_info_sql)
+    # Store query result
     records = cur.fetchall()
+    # Close connection and cursor
     cur.close()
     conn.close()
+    # Format query result into a list of dictionaries
     result_list = []
     for record in records:
         result_list.append(dict(zip(['table', 'columns', 'position', 'date_type'], record)))
+    # Return resulting list
     return result_list
 
 
 def main():
+    # Get source data
     pg_data = get_data(user=PG_USER, password=PG_PASS, db=PG_DB, host=PG_HOST, port=PG_PORT)
+    # Get target data
     rs_data = get_data(user=RS_USER, password=RS_PASS, db=RS_DB, host=RS_HOST, port=RS_PORT)
 
 
