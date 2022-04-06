@@ -3,10 +3,11 @@ This Python program compares tables in a given schema between two databases.
 
 When the code (main.py) is executed, the program will go table by table between the source and target database to compare naming, data types, and ordering.
 ## How to run
-1) Create the file config.py in the same directory as main.py
-2) Copy the config.py template below and paste it into your config.py file.
-3) Set the values in config.py
-4) Run main.py
+1) Clone repository locally.
+2) Create the file config.py in the same directory as main.py
+3) Copy the config.py template below and paste it into your config.py file.
+4) Set the values in config.py
+5) Run main.py
 ## General Information
 - Tested databases:
   - Postgres
