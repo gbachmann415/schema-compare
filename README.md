@@ -1,5 +1,4 @@
 # schema-compare
-## Description
 This code compares tables in a given schema between two databases. When the code (main.py) is executed, the program
 will go table by table between the source and target database to compare naming, data types, and ordering.
 ## General Information
