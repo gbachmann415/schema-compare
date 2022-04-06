@@ -14,7 +14,6 @@ Description: Compare tables within a given schema.
 from config import *
 import psycopg2
 import pandas as pd
-#TODO add input from user. schema, db (source and target)
 
 table_info_sql = """select table_name,
                            column_name,
@@ -70,11 +69,12 @@ def get_data(user, password, db, host, port):
 
 def check_table(table, source_data, target_data):
     """
+    Compare table structure
 
-    :param table:
-    :param source_data:
-    :param target_data:
-    :return:
+    :param table: table that is being checked
+    :param source_data: source table to be compared to
+    :param target_data: target table to compare with source table
+    :return: None
     """
     # Reset index
     source_data.reset_index(inplace=True, drop=True)
@@ -106,6 +106,7 @@ def main():
     tables = pg_data.table_name.unique()
     # Check each table in schema
     for i in tables:
+        # Call check_table function
         check_table(i, pg_data[pg_data.table_name.isin([i])], rs_data[rs_data.table_name.isin([i])])
 
 
