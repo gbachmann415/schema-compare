@@ -12,6 +12,7 @@ Notes: Utilizes a config.py file created by user (should be in same directory as
                 - host (str) - PG_HOST/RS_HOST
                 - database (str) - PG_DB/RS_DB
                 - port (int) - PG_PORT/RS_PORT
+                - schema (str) - SCHEMA
 
 Description: Compare tables within a given schema.
              Print table or column from source that is different in target.
@@ -26,8 +27,8 @@ table_info_sql = """select table_name,
                            ordinal_position,
                            data_type
                     from information_schema.columns
-                    where table_schema = 'schema-check'
-                    ORDER BY table_name ASC, ordinal_position ASC;"""
+                    where table_schema = '{}'
+                    ORDER BY table_name ASC, ordinal_position ASC;""".format(SCHEMA)
 
 
 def connect_to_db(user, password, db, host, port):
