@@ -1,5 +1,5 @@
 """
-Arcion Interview Project: Schema Compare
+Interview Project: Schema Compare
 
 File: main.py
 
