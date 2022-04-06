@@ -34,6 +34,19 @@ RS_PORT =
 
 SCHEMA = ""
 ````
+## Function Descriptions
+- connect_to_db(user, password, db, host, port)
+  - Establishes a connection to a database using credentials from config.py.
+  - Returns database connection object.
+- get_data(user, password, db, host, port)
+  - Execute SQL statement to retrieve table information from the database and store the data in a pandas dataframe.
+  - Returns a populated pandas dataframe.
+- check_table(table, source_data, target_data)
+  - Compare table structure between two databases and print where there is a mismatch.
+  - Returns none.
+- main()
+  - Driving function for this program.
+  - Returns none.
 ## Extra
 - If you would like to use this program with a database other than Redshift or Postgres:
   -  You may need to adjust the SQL statement at the beginning of the main.py file (line 25).
