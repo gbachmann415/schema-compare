@@ -13,7 +13,6 @@ Description: Compare tables within a given schema.
 
 from config import *
 import psycopg2
-import json
 import pandas as pd
 #TODO add input from user. schema, db (source and target)
 
@@ -70,10 +69,31 @@ def get_data(user, password, db, host, port):
 
 
 def check_table(table, source_data, target_data):
-    if len(target_data) == 0:
+    """
+
+    :param table:
+    :param source_data:
+    :param target_data:
+    :return:
+    """
+    # Reset index
+    source_data.reset_index(inplace=True, drop=True)
+    target_data.reset_index(inplace=True, drop=True)
+    # compare columns in table
+    if len(target_data.index) == 0:
         print("Table: " + table)
     else:
-
+        for i in range(len(source_data)):
+            try:
+                # Check if column names match
+                if source_data['column_name'].iloc[i] != target_data['column_name'].iloc[i]:
+                    print("Table: " + table + ", Column: " + source_data['column_name'].iloc[i])
+                # Check if data types match
+                elif source_data['data_type'].iloc[i] != target_data['data_type'].iloc[i]:
+                    print("Table: " + table + ", Column: " + source_data['column_name'].iloc[i])
+            # Catch index error and print column (when # of columns don't match)
+            except IndexError:
+                print("Table: " + table + ", Column: " + source_data['column_name'].iloc[i])
     return
 
 
@@ -82,12 +102,11 @@ def main():
     pg_data = get_data(user=PG_USER, password=PG_PASS, db=PG_DB, host=PG_HOST, port=PG_PORT)
     # Get target data
     rs_data = get_data(user=RS_USER, password=RS_PASS, db=RS_DB, host=RS_HOST, port=RS_PORT)
-
+    # Store list of unique table names
     tables = pg_data.table_name.unique()
+    # Check each table in schema
     for i in tables:
         check_table(i, pg_data[pg_data.table_name.isin([i])], rs_data[rs_data.table_name.isin([i])])
-
-
 
 
 main()
