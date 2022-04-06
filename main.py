@@ -6,6 +6,12 @@ File: main.py
 Authors: Gunnar Bachmann
 
 Notes: Utilizes a config.py file created by user (should be in same directory as this file, main.py)
+       Stores database connection credentials for both source and target:
+                - username (str) - PG_USER/RS_USER
+                - password (str) - PG_PASS/RS_PASS
+                - host (str) - PG_HOST/RS_HOST
+                - database (str) - PG_DB/RS_DB
+                - port (int) - PG_PORT/RS_PORT
 
 Description: Compare tables within a given schema.
              Print table or column from source that is different in target.
